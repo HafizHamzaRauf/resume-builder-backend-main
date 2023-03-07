@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 //**************    MAIN MIDDLEWARES **********************/
 app.use("/", () => {
   console.log("jobify is running");
+  return res.status(200).json({ message: "jobify is running" });
 });
 app.use("/auth", authRoutes);
 // Listen on enviroment variable PORT or 3000
