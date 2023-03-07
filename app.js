@@ -14,7 +14,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //**************    MAIN MIDDLEWARES **********************/
-
+app.use("/", () => {
+  console.log("jobify is running");
+});
 app.use("/auth", authRoutes);
 // Listen on enviroment variable PORT or 3000
 const port = process.env.PORT;
