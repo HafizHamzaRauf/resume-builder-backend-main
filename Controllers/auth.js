@@ -73,7 +73,7 @@ exports.login = async (req, res, next) => {
         expiresIn: "12h",
       }
     );
-    console.log(loadedUser.username);
+    console.log(loadedUser);
     res.status(200).json({
       token,
       message: "Successfully logged in",
