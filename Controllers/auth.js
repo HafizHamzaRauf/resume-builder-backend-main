@@ -73,6 +73,7 @@ exports.login = async (req, res, next) => {
         expiresIn: "12h",
       }
     );
+    console.log(loadedUser.username);
     res.status(200).json({
       token,
       message: "Successfully logged in",
@@ -81,6 +82,7 @@ exports.login = async (req, res, next) => {
       ok: true,
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({ message: "SOmething went wrong", ok: false });
   }
 };
