@@ -47,7 +47,7 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const loadedUser = await User.findOne({ email })
-      .select("email password _id")
+      .select("email password _id username")
       .exec();
     if (!loadedUser) {
       res
@@ -73,7 +73,6 @@ exports.login = async (req, res, next) => {
         expiresIn: "12h",
       }
     );
-    console.log(loadedUser);
     res.status(200).json({
       token,
       message: "Successfully logged in",
