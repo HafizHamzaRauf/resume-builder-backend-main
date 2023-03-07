@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 exports.signup = async (req, res, next) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, username } = req.body;
 
     // VALIDATING WHETHER THE  USER ALREADY EXIST
     const result = await User.findOne({ email: email }).select("email").exec();
@@ -14,7 +14,7 @@ exports.signup = async (req, res, next) => {
     // encrypt the password
     const hashedPassword = await bcrypt.hash(password, 12);
     //create  new user  in the database
-    const user = new User({ name, email, password: hashedPassword });
+    const user = new User({ username, email, password: hashedPassword });
     // save the user to the database
     await user.save();
     // generate the token
@@ -38,7 +38,6 @@ exports.signup = async (req, res, next) => {
       token,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Something went wrong", ok: false });
   }
 };
