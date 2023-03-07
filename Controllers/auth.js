@@ -38,6 +38,7 @@ exports.signup = async (req, res, next) => {
       token,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Something went wrong", ok: false });
   }
 };
