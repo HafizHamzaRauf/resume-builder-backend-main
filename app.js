@@ -15,7 +15,9 @@ app.use(bodyParser.json());
 
 //**************    MAIN MIDDLEWARES **********************/
 
-app.use("/auth", authRoutes);
+app.post("/login", (req, res, next) => {
+  return res.status(200).json({ message: "hello" });
+});
 app.use("/", (req, res, next) => {
   console.log("jobify is running");
   return res.status(200).json({ message: "jobify is running" });
