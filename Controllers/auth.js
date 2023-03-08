@@ -46,9 +46,7 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const loadedUser = await User.findOne({ email })
-      .select("email password _id username")
-      .exec();
+    const loadedUser = await User.findOne({ email }).exec();
     if (!loadedUser) {
       res
         .status(422)
