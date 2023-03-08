@@ -78,6 +78,7 @@ exports.login = async (req, res, next) => {
       message: "Successfully logged in",
       user_id: loadedUser._id,
       username: loadedUser.username,
+      jobs: loadedUser.jobs,
       ok: true,
     });
   } catch (err) {
