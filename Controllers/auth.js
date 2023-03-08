@@ -73,13 +73,11 @@ exports.login = async (req, res, next) => {
         expiresIn: "12h",
       }
     );
-    console.log(loadedUser.jobs);
     res.status(200).json({
       token,
       message: "Successfully logged in",
       user_id: loadedUser._id,
-      username: loadedUser.username,
-      jobs: loadedUser.jobs,
+      user: loadedUser,
       ok: true,
     });
   } catch (err) {
