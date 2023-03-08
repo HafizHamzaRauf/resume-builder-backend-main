@@ -13,6 +13,8 @@ const UserSchema = new Schema({
       location: { type: String },
       status: { type: String },
       jobType: { type: String },
+
+      date: { type: Date },
     },
   ],
 });
