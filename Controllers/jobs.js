@@ -16,6 +16,7 @@ exports.addJob = async (req, res, next) => {
         .json({ ok: false, message: "User does not exist " });
     }
     const { jobs } = req.body;
+    console.log(jobs);
     loadedUser.jobs.push(jobs);
     await loadedUser.save();
     return res
