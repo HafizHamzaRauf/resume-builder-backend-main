@@ -7,14 +7,14 @@ require("./config/db");
 const app = express();
 
 /***************  AUTHENTICATION ROUTES ****************/
-
+const jobRoutes = require("./routes/jobs");
 const authRoutes = require("./routes/auth");
 // *************   REQUEST  PARSING MIDDLEWARE ****************//
 app.use(cors());
 app.use(bodyParser.json());
 
 //**************    MAIN MIDDLEWARES **********************/
-
+app.use("/jobs", jobRoutes);
 app.use("/auth", authRoutes);
 app.use("/", (req, res, next) => {
   console.log("jobify is running");
