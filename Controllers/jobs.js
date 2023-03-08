@@ -8,7 +8,6 @@ exports.addJob = async (req, res, next) => {
       return res.status(400).json({ ok: false, message: "invalid token" });
     }
     const { email, userId } = user;
-    console.log(user);
     const loadedUser = await User.findOne({ email, _id: userId }).exec();
     if (!loadedUser) {
       return res
@@ -16,12 +15,15 @@ exports.addJob = async (req, res, next) => {
         .json({ ok: false, message: "User does not exist " });
     }
     const { jobs } = req.body;
-    console.log(jobs);
     loadedUser.jobs.push(jobs);
     await loadedUser.save();
     return res
       .status(200)
-      .json({ ok: true, message: "successfully added the job" });
+      .json({
+        ok: true,
+        message: "successfully added the job",
+        jobId: loadedUser.job[loadedUser.jobs.length - 1]._id,
+      });
   } catch (err) {
     return res.status(500).json({ ok: false, message: "something went wrong" });
   }
