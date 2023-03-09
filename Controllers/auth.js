@@ -104,7 +104,7 @@ exports.updateUser = async (req, res, next) => {
     const newToken = jwt.sign(
       { email: newEmail, userId: loadedUser.userId },
       process.env.PRIVATE_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "12h" }
     );
     return res.status(200).json({
       ok: true,

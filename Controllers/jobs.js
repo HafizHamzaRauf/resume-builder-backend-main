@@ -31,7 +31,7 @@ exports.delete = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     // verify  token
-    const user = jwt.verify(token, process.env.PRIVATE_KEY);
+    const user = await jwt.verify(token, process.env.PRIVATE_KEY);
     if (!user) {
       return res.status(400).json({ ok: false, message: "invalid token" });
     }
@@ -63,5 +63,39 @@ exports.delete = async (req, res, next) => {
   } catch (err) {
     console.log(err.message);
     return res.status(400).json({ ok: false, message: "something went wrong" });
+  }
+};
+
+exports.editJob = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const user = jwt.verify(token, process.env.PRIVATE_KEY);
+    if (!user) {
+      return res.status(400).json({ ok: false, message: "invalid  token" });
+    }
+    const { email, userId } = user;
+
+    const loadedUser = await User.findOne({ email, _id: userId });
+    if (!loadedUser) {
+      return res.status(400).json({ ok: false, message: "user not found " });
+    }
+    console.log(loadedUser);
+    const { job, jobId } = req.body;
+    const isFound = loadedUser.jobs.findIndex(
+      (item) => item._id.toString() === jobId
+    );
+    if (isFound === -1) {
+      return res.status(400).json({ ok: false, message: "job not found" });
+    }
+    console.log(loadedUser, loadedUser.jobs[isFound]);
+    loadedUser.jobs[isFound] = { ...job, _id: jobId };
+    await loadedUser.save();
+    return res
+      .status(200)
+      .json({ ok: true, message: "job edited successfully" });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ ok: false, message: "something went  wrong" });
   }
 };
