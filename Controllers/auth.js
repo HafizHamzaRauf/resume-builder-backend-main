@@ -83,3 +83,36 @@ exports.login = async (req, res, next) => {
     return res.status(500).json({ message: "SOmething went wrong", ok: false });
   }
 };
+
+exports.updateUser = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const user = jwt.verify(token, process.env.PRIVATE_KEY);
+    if (!user) {
+      return res.status(400).json({ ok: false, message: "Invalid token" });
+    }
+    const { email, userId } = user;
+    const loadedUser = await User.findOne({ email, userId });
+    if (!loadedUser) {
+      return res.status(400).json({ ok: false, message: "User not found" });
+    }
+    const { newEmail, username, location } = req.body;
+    loadedUser.email = newEmail;
+    loadedUser.username = username;
+    loadedUser.location = location;
+    await loadedUser.save();
+    const newToken = jwt.sign(
+      { email: newEmail, userId: loadedUser.userId },
+      process.env.PRIVATE_KEY,
+      { expiresIn: "1h" }
+    );
+    return res.status(200).json({
+      ok: true,
+      message: "User updated successfully",
+      token: newToken,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ ok: false, message: "Something went wrong" });
+  }
+};
