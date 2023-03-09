@@ -17,13 +17,11 @@ exports.addJob = async (req, res, next) => {
     const { jobs } = req.body;
     loadedUser.jobs.push(jobs);
     await loadedUser.save();
-    return res
-      .status(200)
-      .json({
-        ok: true,
-        message: "successfully added the job",
-        jobId: loadedUser.job[loadedUser.jobs.length - 1]._id,
-      });
+    return res.status(200).json({
+      ok: true,
+      message: "successfully added the job",
+      jobId: loadedUser.jobs[loadedUser.jobs.length - 1]._id,
+    });
   } catch (err) {
     return res.status(500).json({ ok: false, message: "something went wrong" });
   }
