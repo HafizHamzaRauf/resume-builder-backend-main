@@ -171,13 +171,17 @@ exports.getJobs = async (req, res, next) => {
         Math.random() * jobStatuses.length
       );
 
+      const randomMonth = Math.floor(Math.random() * 12) + 1; // generate a random month between 1 and 12
+      const randomDay = Math.floor(Math.random() * 28) + 1; // generate a random day between 1 and 28
+      const jobDate = new Date(2023, randomMonth - 1, randomDay); // create a new date object with the random month and day
+
       const job = {
         position: jobTitles[randomTitleIndex],
         company: companies[randomCompanyIndex],
         location: locations[randomLocationIndex],
         status: jobStatuses[randomJobStatusIndex],
         jobType: jobTypes[randomJobTypeIndex],
-        date: new Date(),
+        date: jobDate, // use the random date for the job
       };
 
       jobs.push(job);
