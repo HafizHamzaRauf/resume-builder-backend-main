@@ -99,3 +99,92 @@ exports.editJob = async (req, res, next) => {
       .json({ ok: false, message: "something went  wrong" });
   }
 };
+
+exports.getJobs = async (req, res, next) => {
+  try {
+    const jobTitles = [
+      "Senior Web Developer",
+      "UX Designer",
+      "Frontend Engineer",
+      "Digital Marketing Manager",
+      "Product Manager",
+      "Full Stack Developer",
+      "Data Analyst",
+      "Content Strategist",
+      "Mobile App Developer",
+      "Cloud Solutions Architect",
+      "Cybersecurity Specialist",
+      "Technical Writer",
+      "Social Media Manager",
+      "SEO Specialist",
+      "DevOps Engineer",
+    ];
+
+    const companies = [
+      "Acme Corp",
+      "Globex",
+      "Initech",
+      "Umbrella Corporation",
+      "Monsters, Inc.",
+      "Stark Industries",
+      "Wayne Enterprises",
+      "Spacely Sprockets",
+      "Soylent Corp",
+      "Aperture Science",
+      "Weyland-Yutani",
+      "Hooli",
+      "Pied Piper",
+      "Gekko & Co",
+      "Dunder Mifflin",
+    ];
+
+    const locations = [
+      "San Francisco",
+      "New York",
+      "London",
+      "Paris",
+      "Tokyo",
+      "Sydney",
+      "Berlin",
+      "Seattle",
+      "Austin",
+      "Chicago",
+      "Toronto",
+      "Dublin",
+      "Amsterdam",
+      "Mumbai",
+      "Shanghai",
+    ];
+
+    const jobTypes = ["full-time", "remote", "internship", "part-time"];
+
+    const jobStatuses = ["pending", "interview", "declined"];
+
+    const jobs = [];
+
+    for (let i = 0; i < 15; i++) {
+      const randomTitleIndex = Math.floor(Math.random() * jobTitles.length);
+      const randomCompanyIndex = Math.floor(Math.random() * companies.length);
+      const randomLocationIndex = Math.floor(Math.random() * locations.length);
+      const randomJobTypeIndex = Math.floor(Math.random() * jobTypes.length);
+      const randomJobStatusIndex = Math.floor(
+        Math.random() * jobStatuses.length
+      );
+
+      const job = {
+        position: jobTitles[randomTitleIndex],
+        company: companies[randomCompanyIndex],
+        location: locations[randomLocationIndex],
+        status: jobStatuses[randomJobStatusIndex],
+        jobType: jobTypes[randomJobTypeIndex],
+        date: new Date(),
+      };
+
+      jobs.push(job);
+    }
+
+    return res.status(200).json({ ok: true, jobs });
+  } catch (err) {
+    return res.status(500).json({ ok: false, message: "something went wrong" });
+  }
+};
